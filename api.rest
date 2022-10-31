@@ -1,25 +1,62 @@
-GET http://localhost:3005/api/blogs HTTP/1.1
+GET http://localhost:9005/api/blogs HTTP/1.1
 
 ###
-GET http://localhost:3005/api/blogs/4 HTTP/1.1
+GET http://localhost:9005/api/blogs/4 HTTP/1.1
 
 ###
-DELETE http://localhost:3005/api/blogs/3 HTTP/1.1
+DELETE http://localhost:9005/api/blogs/3 HTTP/1.1
 
 ###
-POST http://localhost:3005/api/blogs HTTP/1.1
+POST http://localhost:9005/api/blogs HTTP/1.1
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvc2l4QGdtYWlsLmNvbSIsImlkIjoyLCJpYXQiOjE2NjcyMTQxNjl9.V1ajiODBCkRjUsY31MgxduuPaauZmA75Eg5Yaz7vYyc
 
 {
-    "title": "PSQL Intro 2",
+    "title": "The revolution of the Web 2",
     "url": "http://blog.com/intro-psql",
-    "author": "Ashiraf Miiro"
+    "author": "Posix CET",
+    "likes": 4
 }
 
 ###
-PUT http://localhost:3005/api/blogs/1 HTTP/1.1
+PUT http://localhost:9005/api/blogs/5 HTTP/1.1
 Content-Type: application/json
 
 {
-    "likes": "4"
+    "likes": "2"
 }
+
+###
+GET http://localhost:9005/api/users HTTP/1.1
+
+###
+POST http://localhost:9005/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "posix@gmail.com",
+    "name": "Posix CET"
+}
+
+###
+POST http://localhost:9005/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "posix@gmail.com",
+    "password": "secret"
+}
+
+###
+
+###
+PUT http://localhost:9005/api/users/ashirafumiiro2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "ashirafumiiro"
+}
+
+###
+GET http://localhost:9005/api/authors HTTP/1.1
+

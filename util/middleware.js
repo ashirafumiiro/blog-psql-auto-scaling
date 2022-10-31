@@ -15,16 +15,21 @@ const unknownEndpoint = (request, response) => {
 
 const errorHandler = (error, request, response, next) => {
   logger.error(error)
+  console.log("\n\nError name:", error.name)
 
   if (error.name === 'SequelizeDatabaseError') {
     return response.status(400).send({ error: error.message })
   } else if (error.name === 'SequelizeValidationError') {
-    return response.status(400).json({ error: error.message })
+    let message = error.message;
+   
+    if (error.errors.find(err => err.validatorKey === 'isEmail')) {
+      message = "username must be a valid email address";
+    }
+    return response.status(400).json({ error: message })
   }
   else{
     return response.status(500).send({error: error.message})
   }
-
   next(error)
 }
 
