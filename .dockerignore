@@ -1,0 +1,8 @@
+.dockerignore
+.gitignore
+node_modules
+Dockerfile
+manifests
+commands.sql
+.env
+Readme.md

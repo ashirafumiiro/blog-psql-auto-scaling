@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blogs-app
+  labels:
+    app: blogs-app
+spec:
+  ports:
+    - port: 9005
+      targetPort: 9005
+  selector:
+    app: blogs-app
+    tier: api
+  type: LoadBalancer
+  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blogs-app
+  labels:
+    app: blogs-app
+spec:
+  selector:
+    matchLabels:
+      app: blogs-app
+      tier: api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: blogs-app
+        tier: api
+    spec:
+      containers:
+      - image: ashirafumiiro/blogs-dep:1.0
+        imagePullPolicy: "IfNotPresent"
+        name: blogs-app
+        env:
+        - name: DATABASE_URL
+          value: postgres://postgres:PASSWORDS_IN_PLAIN_TEXT_ARE_BAD@blogs-postgres/blogs_db
+        - name: SECRET
+          value: JwT_sekret
+        - name: PORT
+          value: '9005'
+        ports:
+        - containerPort: 9005
+          name: blogs-api
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "200m"

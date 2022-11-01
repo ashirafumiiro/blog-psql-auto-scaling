@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service # Create service
+metadata:
+  name: blogs-postgres # Sets the service name
+  labels:
+    app: blogs-app # Defines app to create service for
+spec:
+  type: NodePort # Sets the service type
+  ports:
+    - port: 5432 # Sets the port to run the postgres application
+  selector:
+    app: blogs-app
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim # Create PVC
+metadata:
+  name: postgresql-data-claim # Sets name of PV
+  labels:
+    app: blogs-app
+spec:
+  # storageClassName: manual
+  accessModes:
+    - ReadWriteOnce # Sets read and write access
+  resources:
+    requests:
+      storage: 5Gi # Sets volume size
+
+---
+apiVersion: apps/v1
+kind: Deployment # Create a deployment
+metadata:
+  name: blogs-postgres # Set the name of the deployment
+spec:
+  selector:
+    matchLabels:
+      app: blogs-app
+  template:
+    metadata:
+      labels:
+        app: blogs-app
+        tier: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:12.10 # Docker image
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432 # Exposing the container port 5432 for PostgreSQL client connections.
+          env:
+            - name: POSTGRES_DB
+              value: blogs_db
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: PASSWORDS_IN_PLAIN_TEXT_ARE_BAD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
+      volumes:
+        - name: postgresdata
+          persistentVolumeClaim:
+            claimName: postgresql-data-claim
