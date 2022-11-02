@@ -14,5 +14,16 @@ The command below is then used in the scaling.
 kubectl autoscale deployment blogs-app --cpu-percent=50 --min=1 --max=10
 ```
 
+##### GKE pipeline with Github Actions
+This has been configured in the .github folder
+The cluster can be created using the command
+```bash
+gcloud container clusters create blogs-cluster --zone=europe-north1-b --cluster-version=1.22
+```
+After usage the cluster can be deleted with the command:
+```bash
+gcloud container clusters delete blogs-cluster --zone=europe-north1-b
+```
+
 
 

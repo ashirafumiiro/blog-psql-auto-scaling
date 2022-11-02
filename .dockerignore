@@ -6,3 +6,6 @@ manifests
 commands.sql
 .env
 Readme.md
+kustomization.yaml
+private-key.json
+.github
