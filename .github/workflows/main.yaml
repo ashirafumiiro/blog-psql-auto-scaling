@@ -7,7 +7,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: blogs-cluster
   GKE_ZONE: europe-north1-b
-  IMAGE: blogs-deployment
+  IMAGE: blogs-app
 
 jobs:
   setup-build-publish-deploy:
